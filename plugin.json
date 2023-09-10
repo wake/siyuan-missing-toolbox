@@ -19,7 +19,7 @@
   },
   "description": {
     "default": "This is a toolbox of missing functions for Siyuan",
-    "zh_CN": "這是一個遺失功能集合，為思源筆記提供一些缺少的功能。"
+    "zh_CN": "這是一個小功能集合外掛，為思源筆記提供一些缺少的功能。"
   },
   "readme": {
     "default": "README.md",
