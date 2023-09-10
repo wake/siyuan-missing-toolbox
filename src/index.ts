@@ -91,6 +91,18 @@ export default class PluginSample extends Plugin {
             }
         });
 
+
+        this.addCommand ({langKey: "switchTab1", hotkey: "⌘1", callback: () => { this.switchTabN ({index: 1}) }});
+        this.addCommand ({langKey: "switchTab2", hotkey: "⌘2", callback: () => { this.switchTabN ({index: 2}) }});
+        this.addCommand ({langKey: "switchTab3", hotkey: "⌘3", callback: () => { this.switchTabN ({index: 3}) }});
+        this.addCommand ({langKey: "switchTab4", hotkey: "⌘4", callback: () => { this.switchTabN ({index: 4}) }});
+        this.addCommand ({langKey: "switchTab5", hotkey: "⌘5", callback: () => { this.switchTabN ({index: 5}) }});
+        this.addCommand ({langKey: "switchTab6", hotkey: "⌘6", callback: () => { this.switchTabN ({index: 6}) }});
+        this.addCommand ({langKey: "switchTab7", hotkey: "⌘7", callback: () => { this.switchTabN ({index: 7}) }});
+        this.addCommand ({langKey: "switchTab8", hotkey: "⌘8", callback: () => { this.switchTabN ({index: 8}) }});
+        this.addCommand ({langKey: "switchTab9", hotkey: "⌘9", callback: () => { this.switchTabN ({index: 9}) }});
+
+        /*
         this.addCommand({
             langKey: "showDialog",
             hotkey: "⇧⌘O",
@@ -106,6 +118,7 @@ export default class PluginSample extends Plugin {
                 console.log(this.getOpenedTab());
             },
         });
+        */
 
         this.addDock({
             config: {
@@ -213,6 +226,14 @@ export default class PluginSample extends Plugin {
         });
     }
     */
+
+    private switchTabN({index}: any) {
+      const activeTabBars = document.querySelectorAll(".layout__wnd--active .fn__flex.layout-tab-bar");
+
+      if (activeTabBars.length > 0 && activeTabBars[0].childNodes.length >= index) {
+        activeTabBars[0].childNodes[index - 1].click ();
+      }
+    }
 
     private eventBusLog({detail}: any) {
         console.log(detail);
