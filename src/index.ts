@@ -105,7 +105,7 @@ export default class PluginSample extends Plugin {
 
 
         this.addCommand({
-          langKey: "newDocBelow",
+          langKey: "newDocAbove",
           hotkey: "⇧⌘N",
           callback: async () => {
 
@@ -123,13 +123,66 @@ export default class PluginSample extends Plugin {
             const paths: string[] = [];
             Array.from(liElement.parentElement.children).forEach((item) => {
                 if (item.tagName === "LI") {
-                    paths.push(item.getAttribute("data-path"));
-                    if (item.isSameNode(liElement)) {
-                      paths.push(undefined);
+                  if (item.isSameNode(liElement)) {
+                    paths.push(undefined);
                   }
-              }
+                  paths.push(item.getAttribute("data-path"));
+                }
             });
 
+            fetchPost("/api/filetree/getDocCreateSavePath", {notebook: notebookId}, (data) => {
+
+              let title = data.data.path || "Untitled";
+                title = title.substring(title.lastIndexOf("/") + 1);
+
+                const id = window.Lute.NewNodeID();
+                const newPath = currentPath.substring(0,currentPath.lastIndexOf("/")+1) + id + ".sy";
+
+                if (paths) {
+                    paths[paths.indexOf(undefined)] = newPath;
+                }
+
+                fetchPost("/api/filetree/createDoc", {
+                    notebook: notebookId,
+                    path: newPath,
+                    title,
+                    md: "",
+                    sorts: paths
+                }, () => {
+                    /// #if !MOBILE
+                    openTab({app: this.app, doc: {id}, keepCursor: false});
+                });
+            });
+          },
+        });
+
+
+
+        this.addCommand({
+          langKey: "newDocBelow",
+          hotkey: "⌘N",
+          callback: async () => {
+
+            // Focused note
+            const liElement = document.querySelector(".b3-list-item--focus");
+
+            if (! liElement || liElement.tagName !== "LI")
+              return;
+
+            const ulElement = liElement.closest(".b3-list");
+
+            const notebookId = ulElement.getAttribute("data-url");
+            const currentPath = liElement.getAttribute("data-path");
+
+            const paths: string[] = [];
+            Array.from(liElement.parentElement.children).forEach((item) => {
+              if (item.tagName === "LI") {
+                paths.push(item.getAttribute("data-path"));
+                if (item.isSameNode(liElement)) {
+                  paths.push(undefined);
+                }
+              }
+            });
 
             fetchPost("/api/filetree/getDocCreateSavePath", {notebook: notebookId}, (data) => {
 
