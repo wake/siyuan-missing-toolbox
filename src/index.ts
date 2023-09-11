@@ -137,7 +137,6 @@ export default class PluginSample extends Plugin {
                 title = title.substring(title.lastIndexOf("/") + 1);
 
                 const id = window.Lute.NewNodeID();
-                console.log ('id', id);
                 const newPath = currentPath.substring(0,currentPath.lastIndexOf("/")+1) + id + ".sy";
 
                 if (paths) {
